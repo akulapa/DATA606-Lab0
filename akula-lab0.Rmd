@@ -1,0 +1,76 @@
+---
+title: "Akula-DATA606-Lab0"
+author: "Pavan Akula"
+date: "February 3, 2017"
+output:
+  html_document: 
+    toc: yes
+  pdf_document: default
+---
+Following command loads data from present.R located in working directory/more folder and also creates data frame.
+```{r load-present-data, eval=TRUE}
+source("more/present.R")
+```
+```{r load-abrbuthnot-data, eval=TRUE}
+source("more/arbuthnot.R")
+```
+
+```{r view-present-data, eval=TRUE}
+present
+```
+Q 1: What years are included in this data set? What are the dimensions of the data frame and what are the variable or column names?
+
+A: Total of 63 years from 1940 to 2002.
+```{r view-present-year-data, eval=TRUE}
+present$year
+```
+
+Dimensions of the data frame present are
+```{r view-dim-present, eval=TRUE}
+dim(present)
+```
+
+Columns in the data frame are
+```{r view-col-present, eval=TRUE}
+names(present)
+```
+
+Q 2:How do these counts compare to Arbuthnot's? Are they on a similar scale?
+
+A: Present data frame counts are much higher than Arbuthnot counts and also they belong to different period of time. Present data frame years range from 1940 to 2002 on the other hand Arbuthnot data frame years range from 1629 - 1710. I believe they are similar scale because
+
+a. Both data frames have 3 columns
+b. Both data frame have year column as categorical variable and boys and girls as numerical variables.
+
+```{r view-dim-arbuthnot, eval=TRUE}
+dim(arbuthnot)
+```
+
+Q 3: Make a plot that displays the boy-to-girl ratio for every year in the data set. What do you see? Does Arbuthnot's observation about boys being born in greater proportion than girls hold up in the U.S.? Include the plot in your response.
+
+A: Following command is used to calculate boy-to-girl ratio. Command will add extra column "boyTogirlratio" to data frame present.
+
+```{r cal-boy-to-girl-ratio, eval=TRUE}
+present$boyTogirlratio <- present$boys / present$girls
+```
+```{r view-boy-to-girl-data, eval=TRUE}
+present$boyTogirlratio
+```
+```{r view-req-col-data, eval=TRUE}
+subset(present, select=c(year, boyTogirlratio))
+```
+As the years progressed ratio was getting reduced. In the year 1946, there were more boys born compared to girls. After 1946 difference started reducing. Yes, Arbuthnot's observation about boys being born in greater proportion than girls holds good in the U.S. too. Following is the plot displaying years and boy-to-girl ratio.
+```{r view-plot, eval=TRUE}
+plot(y=present$year, x=present$boyTogirlratio,ylab="Year",xlab="boy-to-girl ratio")
+```
+
+Q 4: In what year did we see the most total number of births in the U.S.? 
+
+A: Most births happened in year 1961, total of 4268326.
+
+```{r totalbirth-data, eval=TRUE}
+present$totalbirth <- present$boys + present$girls
+```
+```{r view-max-births-year, eval=TRUE}
+present[present$totalbirth == max(present$totalbirth),]
+```
